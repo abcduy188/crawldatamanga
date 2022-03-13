@@ -18,11 +18,9 @@ namespace crawldataweb.Controllers
         public ActionResult Index()
         {
             var check = db.Categories.FirstOrDefault(d => d.name == "Truyện Teen hay");
-            if (check == null)
-            {
-
-            }
-                return View();
+            List<manga> manga = db.mangas.Where(d => d.category_id == check.id).ToList();
+            ViewBag.manga = manga;
+            return View(manga);
 
         }
         public ActionResult Webindex()

@@ -1,4 +1,11 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-@Html.Raw(@ViewBag.MyString);
+@model  List<crawldataweb.Models.manga>
+
+@foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.name</td>
+                </tr>
+            }
