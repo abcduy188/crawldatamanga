@@ -17,10 +17,8 @@ namespace crawldataweb.Controllers
         private crawlDbContext db = new crawlDbContext();
         public ActionResult Index()
         {
-            var check = db.Categories.FirstOrDefault(d => d.name == "Truyện Teen hay");
-            List<manga> manga = db.mangas.Where(d => d.category_id == check.id).ToList();
-            ViewBag.manga = manga;
-            return View(manga);
+           
+            return View();
 
         }
         public ActionResult Webindex()
@@ -59,7 +57,7 @@ namespace crawldataweb.Controllers
 
 
 
-            System.IO.File.WriteAllText(@"D:\Workspace\res.html", html);
+            System.IO.File.WriteAllText(@"D:\res.html", html);
 
             //lay name and href cua tat ca the loai truyen
             string pattern = @"<ul class=""sub-menu sub-menu-cat"">(.*?)<\/ul>";
@@ -97,7 +95,7 @@ namespace crawldataweb.Controllers
                     db.SaveChanges();
                 }
             }
-            //for(int i=0; i< listcate.Count(); i++)
+            //for(int i=0; i< 3; i++)
             //{
             //    cate.name = listcate[i];
             //    cate.url = listurlcate[i];
