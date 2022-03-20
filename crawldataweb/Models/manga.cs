@@ -18,5 +18,8 @@ namespace crawldataweb.Models
         public string name { get; set; }
         public string url { get; set; }
         public Nullable<long> category_id { get; set; }
+        public string author { get; set; }
+        public string image { get; set; }
+        public string chap { get; set; }
     }
 }

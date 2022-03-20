@@ -4,9 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="49505023949a40689a7fe7b6e3a1d0a9" Name="Diagram1">
+      <Diagram DiagramId="9d43e6c6f5684237be945b3378c285d1" Name="Diagram1">
         <EntityTypeShape EntityType="crawl1Model.Category" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="crawl1Model.manga" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="crawl1Model.sysdiagram" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
