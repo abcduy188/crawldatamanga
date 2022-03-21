@@ -132,7 +132,7 @@ namespace crawldataweb.Controllers
 
             //lay url + name tung truyen
             //string pattern2 = @"<td class=""image .*?""><a href=""(.*?)"" title=""(.*?)"".*?<\/td>";
-            string pattern2 = @"<td class=""image.*?""><a href=""(.*?)"" title=""(.*?)""><img class="".*?"" src=""(.*?)"" alt.*?<p>Tác giả:.*? title=""(.*?)"".*?<\/td>.*?title="".*?"">(.*?)<\/a><\/td>";
+            string pattern2 = @"<td class=""image.*?""><a href=""(.*?)"" title=""(.*?)""><img class="".*?"" src=""(.*?)"" alt.*?<p>Tác giả:.*? title=""(.*?)"".*?<\/td>.*?title="".*?"">Chương (.*?)<\/a><\/td>";
             var manga = new manga();
             //List<string> listmanga = new List<string>();
             //List<string> listurlmanga = new List<string>();
