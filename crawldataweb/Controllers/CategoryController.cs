@@ -89,18 +89,35 @@ namespace crawldataweb.Controllers
             var pagesess = new pageSession();
             pagesess.page = number;
             Session.Add("pagesess", pagesess);
-
-            for (int i = 1; i <= number; i++)
+            if(number > 21)
             {
-                //url trang  = url + (trang-i) -> ra trang tiep theo cua the loai
-                //+= nay dung de xem result in notepad -> sau chi can luu vao csdl
+                for (int i = 1; i < 21; i++)
+                {
+                    //url trang  = url + (trang-i) -> ra trang tiep theo cua the loai
+                    //+= nay dung de xem result in notepad -> sau chi can luu vao csdl
 
 
-                //urlcate = https://sstruyen.com/danh-sach/truyen1/trang-1 ,id1
-                string newurlpage = urlcate + "trang-" + i;
+                    //urlcate = https://sstruyen.com/danh-sach/truyen1/trang-1 ,id1
+                    string newurlpage = urlcate + "trang-" + i;
 
-                gettableContent(newurlpage, idcate);
+                    gettableContent(newurlpage, idcate);
+                }
             }
+            else
+            {
+                for (int i = 1; i <= number; i++)
+                {
+                    //url trang  = url + (trang-i) -> ra trang tiep theo cua the loai
+                    //+= nay dung de xem result in notepad -> sau chi can luu vao csdl
+
+
+                    //urlcate = https://sstruyen.com/danh-sach/truyen1/trang-1 ,id1
+                    string newurlpage = urlcate + "trang-" + i;
+
+                    gettableContent(newurlpage, idcate);
+                }
+            }
+            
             //System.IO.File.WriteAllText(@"D:\Workspace\reslistnumbercate.html", listnumber);
 
         }

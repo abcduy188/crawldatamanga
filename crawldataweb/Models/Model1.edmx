@@ -21,6 +21,7 @@
           <Property Name="name" Type="nvarchar" MaxLength="250" />
           <Property Name="word" Type="ntext" />
           <Property Name="manga_id" Type="bigint" />
+          <Property Name="url" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="manga">
           <Key>
@@ -71,6 +72,7 @@
           <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="word" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="manga_id" Type="Int64" />
+          <Property Name="url" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="manga">
           <Key>
@@ -94,7 +96,7 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <EntityContainer Name="crawl1Entities2" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="crawl1Entities5" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Chaps" EntityType="Self.Chap" />
           <EntitySet Name="mangas" EntityType="Self.manga" />
@@ -105,7 +107,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="crawl1ModelStoreContainer" CdmEntityContainer="crawl1Entities2">
+        <EntityContainerMapping StorageEntityContainer="crawl1ModelStoreContainer" CdmEntityContainer="crawl1Entities5">
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="crawl1Model.Category">
               <MappingFragment StoreEntitySet="Category">
@@ -122,6 +124,7 @@
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="word" ColumnName="word" />
                 <ScalarProperty Name="manga_id" ColumnName="manga_id" />
+                <ScalarProperty Name="url" ColumnName="url" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
