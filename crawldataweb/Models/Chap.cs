@@ -12,14 +12,12 @@ namespace crawldataweb.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class manga
+    public partial class Chap
     {
         public long id { get; set; }
         public string name { get; set; }
+        public string word { get; set; }
+        public Nullable<long> manga_id { get; set; }
         public string url { get; set; }
-        public Nullable<long> category_id { get; set; }
-        public string author { get; set; }
-        public string image { get; set; }
-        public string chap { get; set; }
     }
 }

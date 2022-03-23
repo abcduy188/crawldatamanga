@@ -13,6 +13,16 @@
           <Property Name="name" Type="nvarchar" MaxLength="250" />
           <Property Name="url" Type="nvarchar" MaxLength="250" />
         </EntityType>
+        <EntityType Name="Chap">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="250" />
+          <Property Name="word" Type="ntext" />
+          <Property Name="manga_id" Type="bigint" />
+          <Property Name="url" Type="nvarchar" MaxLength="250" />
+        </EntityType>
         <EntityType Name="manga">
           <Key>
             <PropertyRef Name="id" />
@@ -21,10 +31,25 @@
           <Property Name="name" Type="nvarchar" MaxLength="250" />
           <Property Name="url" Type="nvarchar" MaxLength="250" />
           <Property Name="category_id" Type="bigint" />
+          <Property Name="author" Type="nvarchar" MaxLength="250" />
+          <Property Name="image" Type="nvarchar" MaxLength="250" />
+          <Property Name="chap" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityContainer Name="crawl1ModelStoreContainer">
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chap" EntityType="Self.Chap" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="manga" EntityType="Self.manga" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -39,6 +64,16 @@
           <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="url" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Chap">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="word" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="manga_id" Type="Int64" />
+          <Property Name="url" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="manga">
           <Key>
             <PropertyRef Name="id" />
@@ -47,22 +82,48 @@
           <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="url" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="category_id" Type="Int64" />
+          <Property Name="author" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="chap" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="crawlDbContext" annotation:LazyLoadingEnabled="true">
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityContainer Name="crawl1Entities5" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Chaps" EntityType="Self.Chap" />
           <EntitySet Name="mangas" EntityType="Self.manga" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="crawl1ModelStoreContainer" CdmEntityContainer="crawlDbContext">
+        <EntityContainerMapping StorageEntityContainer="crawl1ModelStoreContainer" CdmEntityContainer="crawl1Entities5">
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="crawl1Model.Category">
               <MappingFragment StoreEntitySet="Category">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="url" ColumnName="url" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Chaps">
+            <EntityTypeMapping TypeName="crawl1Model.Chap">
+              <MappingFragment StoreEntitySet="Chap">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="word" ColumnName="word" />
+                <ScalarProperty Name="manga_id" ColumnName="manga_id" />
                 <ScalarProperty Name="url" ColumnName="url" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -74,6 +135,20 @@
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="url" ColumnName="url" />
                 <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="author" ColumnName="author" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="chap" ColumnName="chap" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="crawl1Model.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
