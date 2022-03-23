@@ -34,7 +34,8 @@ namespace crawldataweb.Controllers
                 {
                     string urlcate = url + item.url +"chuong-" + i; //https://sstruyen.com/thoi-thanh-xuan-tuoi-dep-nhat/chuong-1/ ,id1
                     string html1 = xnethtml(urlcate);// html of mange 1
-                    gethtml(html1,item.id);
+                    string urlchap = "chuong-" + i;
+                    gethtml(html1,item.id, urlchap);
                 }
 
             }
@@ -48,11 +49,11 @@ namespace crawldataweb.Controllers
             xNet.HttpRequest http = new xNet.HttpRequest();
             http.Cookies = new CookieDictionary();
             string html1 = http.Get(html).ToString();
-            //System.IO.File.WriteAllText(@"D:\Works\chap.html", html1);
+            System.IO.File.WriteAllText(@"D:\Works\chap.html", html1);
             return html1;
         }
 
-        public void gethtml(string html,long idmanga)
+        public void gethtml(string html,long idmanga,string urlchap)
         {
             //https://regex101.com/r/yv0641/1
             string pattern = @".*?title="""">(.*?)<\/a>.*?<div class=""content container1""><\/br><p>(.*?)<iframe.*?><\/iframe>(.*?)<iframe.*?<\/iframe>(.*?)<\/p>";
@@ -72,15 +73,21 @@ namespace crawldataweb.Controllers
                 if ((m.Groups[1].Value).Length < 255)
                 {
                     //+= nay dung de xem result in notepad->sau chi can luu vao csdl
-                    urlr = m.Groups[1].Value;
-                    
+                    string name = m.Groups[1].Value;
 
+                    var check = db.Chaps.FirstOrDefault(d => d.url == urlchap && d.manga_id == idmanga);
+                    if (check == null)
+                    {
                         chap.name = m.Groups[1].Value;
-                        chap.word = wordall;
-                        chap.manga_id = idmanga;
-                        db.Chaps.Add(chap);
-                        db.SaveChanges();
-                    
+                    chap.word = wordall;
+                    chap.manga_id = idmanga;
+                    chap.url = urlchap;
+                    db.Chaps.Add(chap);
+                    db.SaveChanges();
+
+                    }
+
+
                 }
 
 

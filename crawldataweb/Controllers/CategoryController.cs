@@ -20,14 +20,14 @@ namespace crawldataweb.Controllers
         {
             string url = "https://sstruyen.com/danh-sach/";
 
-           
+
             //var cate = db.Categories.Find(11664);
             //string urlcate = url + cate.url;
             //string html1 = xnethtml(urlcate);
             //getPage(html1, cate.id, urlcate);
             List<Category> cate = db.Categories.ToList();
             foreach (var item in cate)
-            {   
+            {
                 string urlcate = url + item.url; //https://sstruyen.com/danh-sach/truyen1 ,id1
                 string html1 = xnethtml(urlcate);// html of mange 1
                 getPage(html1, item.id, urlcate);
@@ -51,7 +51,7 @@ namespace crawldataweb.Controllers
 
 
         //get page category :
-        public void getPage(string html,long idcate,string urlcate)
+        public void getPage(string html, long idcate, string urlcate)
         {
 
             string pattern = @"<div class=""pagination pc""><ul>(.*?)<\/ul><\/div>";
@@ -63,12 +63,12 @@ namespace crawldataweb.Controllers
                 htmlul += m.Groups[1];
 
             }
-            getlistNumberPage(htmlul, idcate,urlcate);
+            getlistNumberPage(htmlul, idcate, urlcate);
             //System.IO.File.WriteAllText(@"D:\Workspace\rescatepage1.html", htmlul);
 
         }
 
-        public void getlistNumberPage(string htmlul, long idcate,string urlcate)
+        public void getlistNumberPage(string htmlul, long idcate, string urlcate)
         {
             List<Category> cate = db.Categories.ToList();
 
@@ -89,18 +89,35 @@ namespace crawldataweb.Controllers
             var pagesess = new pageSession();
             pagesess.page = number;
             Session.Add("pagesess", pagesess);
-
-            for (int i = 1; i <= number; i++)
+            if(number > 21)
             {
-                //url trang  = url + (trang-i) -> ra trang tiep theo cua the loai
-                //+= nay dung de xem result in notepad -> sau chi can luu vao csdl
+                for (int i = 1; i < 21; i++)
+                {
+                    //url trang  = url + (trang-i) -> ra trang tiep theo cua the loai
+                    //+= nay dung de xem result in notepad -> sau chi can luu vao csdl
 
 
-                //urlcate = https://sstruyen.com/danh-sach/truyen1/trang-1 ,id1
-                string newurlpage = urlcate + "trang-" + i;
+                    //urlcate = https://sstruyen.com/danh-sach/truyen1/trang-1 ,id1
+                    string newurlpage = urlcate + "trang-" + i;
 
-                gettableContent(newurlpage, idcate);
+                    gettableContent(newurlpage, idcate);
+                }
             }
+            else
+            {
+                for (int i = 1; i <= number; i++)
+                {
+                    //url trang  = url + (trang-i) -> ra trang tiep theo cua the loai
+                    //+= nay dung de xem result in notepad -> sau chi can luu vao csdl
+
+
+                    //urlcate = https://sstruyen.com/danh-sach/truyen1/trang-1 ,id1
+                    string newurlpage = urlcate + "trang-" + i;
+
+                    gettableContent(newurlpage, idcate);
+                }
+            }
+            
             //System.IO.File.WriteAllText(@"D:\Workspace\reslistnumbercate.html", listnumber);
 
         }
@@ -117,7 +134,7 @@ namespace crawldataweb.Controllers
                 //+= nay dung de xem result in notepad -> sau chi can luu vao csdl
                 listtablecontent += m.Groups[1];
             }
-            //System.IO.File.WriteAllText(@"D:\Workspace\rescatetablecontent.html", listtablecontent);
+            //System.IO.File.WriteAllText(@"D:\Works\rescatetablecontent.html", pattern);
 
 
             //dua vao tr lay ra tung td
@@ -128,27 +145,41 @@ namespace crawldataweb.Controllers
                 //+= nay dung de xem result in notepad -> sau chi can luu vao csdl
                 listoftd += m.Groups[1];
             }
-            //System.IO.File.WriteAllText(@"D:\Workspace\rescatetabletd.html", listtd);
+            //System.IO.File.WriteAllText(@"D:\Works\rescatetabletd.html", listoftd);
 
             //lay url + name tung truyen
-            string pattern2 = @"<td class=""image .*?""><a href=""(.*?)"" title=""(.*?)"".*?<\/td>";
+            //string pattern2 = @"<td class=""image .*?""><a href=""(.*?)"" title=""(.*?)"".*?<\/td>";
+            string pattern2 = @"<td class=""image.*?""><a href=""(.*?)"" title=""(.*?)""><img class="".*?"" src=""(.*?)"" alt.*?<p>Tác giả:.*? title=""(.*?)"".*?<\/td>.*?title="".*?"">Chương (.*?)<\/a><\/td>";
             var manga = new manga();
+            //List<string> listmanga = new List<string>();
+            //List<string> listurlmanga = new List<string>();
             string urlr = "";
             foreach (Match m in Regex.Matches(listoftd, pattern2))
             {
-                //+= nay dung de xem result in notepad -> sau chi can luu vao csdl
-                urlr = m.Groups[1].Value;
-                var check = db.mangas.FirstOrDefault(d => d.url == urlr);
-                if (check != null)
+
+                if ((m.Groups[1].Value).Length < 255 && (m.Groups[3].Value).Length < 229   && m.Groups[2].Value.Length < 255 )
                 {
-                    manga.name = m.Groups[2].Value;
-                    manga.url = m.Groups[1].Value;
-                    manga.category_id = idcate;
-                    db.mangas.Add(manga);
-                    db.SaveChanges();
-                }    
-               
+                    //+= nay dung de xem result in notepad->sau chi can luu vao csdl
+                    urlr = m.Groups[1].Value;
+                    var check = db.mangas.FirstOrDefault(d => d.url == urlr);
+                    if (check == null)
+                    {
+                        
+                        manga.name = m.Groups[2].Value;
+                        manga.url = m.Groups[1].Value;
+                        manga.image = "https://sstruyen.com" + m.Groups[3].Value;
+                        manga.author = m.Groups[4].Value;
+                        manga.chap = m.Groups[5].Value;
+                        manga.category_id = idcate;
+                        db.mangas.Add(manga);
+                        db.SaveChanges();
+                    }
+                }
+
+
             }
+            //string pattern = @"<tr><td class=""image.*?><a href=""(.*?)"" title=""(.*?)"".*? src=""(.*?)"" .*? href=""\/tac-gia.*?title=.*?>(.*?)<\/a>.*?<\/td><\/tr>";
+            //< tr >< td class="image.*?><a href="(.*?)" title="(.*?)".*? src="(.*?)" .*? href="\/tac-gia.*?title=.*?>(.*?)<\/a>.*?<\/td><\/tr>
             //System.IO.File.WriteAllText(@"D:\Workspace\rescatetabletd.html", listtd);
 
 

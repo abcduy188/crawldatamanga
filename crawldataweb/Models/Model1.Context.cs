@@ -26,6 +26,8 @@ namespace crawldataweb.Models
         }
     
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Chap> Chaps { get; set; }
         public virtual DbSet<manga> mangas { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }
