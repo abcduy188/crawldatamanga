@@ -20,6 +20,7 @@ namespace crawldataweb.Models
         public Nullable<long> category_id { get; set; }
         public string author { get; set; }
         public string image { get; set; }
-        public string chap { get; set; }
+        public Nullable<int> chap { get; set; }
+        public Nullable<int> lastPage { get; set; }
     }
 }
