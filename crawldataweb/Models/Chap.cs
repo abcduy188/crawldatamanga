@@ -19,5 +19,6 @@ namespace crawldataweb.Models
         public string word { get; set; }
         public Nullable<long> manga_id { get; set; }
         public string url { get; set; }
+        public int chapNumber { get; set; }
     }
 }

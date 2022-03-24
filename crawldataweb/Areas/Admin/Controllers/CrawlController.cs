@@ -47,27 +47,53 @@ namespace crawldataweb.Areas.Admin.Controllers
 
             foreach (var item in man)
             {
-                int number = Int32.Parse(item.chap);
-                if (number <= 30)
+
+                int number = (int)item.chap; //get chap
+
+                #region 30 Chap
+                var chaps = db.Chaps.Where(d => d.manga_id == item.id).OrderByDescending(d => d.chapNumber).ToList();
+                if (chaps.Count == 0) //Chua co chap, add chap moi
                 {
-                    for (int i = 1; i <= number; i++)
+                    if (number <= 15)
                     {
-                        string urlcate = url + item.url + "chuong-" + i; //https://sstruyen.com/thoi-thanh-xuan-tuoi-dep-nhat/chuong-1/ ,id1
-                        string html1 = xnethtml(urlcate);// html of mange 1
-                        string urlchap = "chuong-" + i;
-                        gethtml(html1, item.id, urlchap);
+                        for (int i = 1; i <= number; i++)
+                        {
+                            string urlcate = url + item.url + "chuong-" + i; //https://sstruyen.com/thoi-thanh-xuan-tuoi-dep-nhat/chuong-1/ ,id1
+                            string html1 = xnethtml(urlcate);// html of mange 1
+                            string urlchap = "chuong-" + i;
+                            gethtml(html1, item.id, urlchap, i);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 1; i <= 15; i++)
+                        {
+                            string urlcate = url + item.url + "chuong-" + i; //https://sstruyen.com/thoi-thanh-xuan-tuoi-dep-nhat/chuong-1/ ,id1
+                            string html1 = xnethtml(urlcate);// html of mange 1
+                            string urlchap = "chuong-" + i;
+                            gethtml(html1, item.id, urlchap, i);
+                        }
                     }
                 }
-                else
+                else //co chap ton tai => kiem tra update
                 {
-                    for (int i = 1; i <= 30; i++)
+                    var chap = chaps.First();
+                    if (number > chap.chapNumber)
                     {
-                        string urlcate = url + item.url + "chuong-" + i; //https://sstruyen.com/thoi-thanh-xuan-tuoi-dep-nhat/chuong-1/ ,id1
-                        string html1 = xnethtml(urlcate);// html of mange 1
-                        string urlchap = "chuong-" + i;
-                        gethtml(html1, item.id, urlchap);
+                        //for (int i = chap.chapNumber + 1; i <= number; i++)
+                        for (int i = chap.chapNumber + 1; i <= 15; i++) //bat dat duyet chap tiep theo
+                        {
+                            string urlcate = url + item.url + "chuong-" + i; //https://sstruyen.com/thoi-thanh-xuan-tuoi-dep-nhat/chuong-1/ ,id1
+                            string html1 = xnethtml(urlcate);// html of mange 1
+                            string urlchap = "chuong-" + i;
+                            gethtml(html1, item.id, urlchap, i);
+                        }
                     }
+
+
                 }
+                #endregion
+
 
             }
             return Redirect("/admin/home");
@@ -264,7 +290,7 @@ namespace crawldataweb.Areas.Admin.Controllers
             if (countAllPageManga > countMangaSQL) //check if == true -> has new manga ;
             {
                 #region moi category lay 21 trang truyen (21*12)
-                if(countMangaSQL != 0) //chua co truyen
+                if (countMangaSQL != 0) //chua co truyen
                 {
                     if (number > 21)
                     {
@@ -402,7 +428,16 @@ namespace crawldataweb.Areas.Admin.Controllers
                         manga.url = m.Groups[1].Value;
                         manga.image = "https://sstruyen.com" + m.Groups[3].Value;
                         manga.author = m.Groups[4].Value;
-                        manga.chap = m.Groups[5].Value;
+                        if (m.Groups[5].Value != null)
+                        {
+                            manga.chap = Int32.Parse(m.Groups[5].Value);
+                        }
+
+                        else
+                        {
+                            manga.chap = 0;
+                        }
+
                         manga.category_id = idcate;
                         db.mangas.Add(manga);
                         db.SaveChanges();
@@ -473,12 +508,11 @@ namespace crawldataweb.Areas.Admin.Controllers
         public string xnethtml(string html)
         {
             xNet.HttpRequest http = new xNet.HttpRequest();
-            http.Cookies = new CookieDictionary();
             string html1 = http.Get(html).ToString();
             return html1;
         }
 
-        public void gethtml(string html, long idmanga, string urlchap)
+        public void gethtml(string html, long idmanga, string urlchap, int i)
         {
             //https://regex101.com/r/yv0641/1
             string pattern = @".*?title="""">(.*?)<\/a>.*?<div class=""content container1""><\/br><p>(.*?)<iframe.*?><\/iframe>(.*?)<iframe.*?<\/iframe>(.*?)<\/p>";
@@ -507,6 +541,7 @@ namespace crawldataweb.Areas.Admin.Controllers
                         chap.word = wordall;
                         chap.manga_id = idmanga;
                         chap.url = urlchap;
+                        chap.chapNumber = i;
                         db.Chaps.Add(chap);
                         db.SaveChanges();
 

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="crawl3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="crawl3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="id" />
@@ -23,6 +23,7 @@
           <Property Name="word" Type="ntext" />
           <Property Name="manga_id" Type="bigint" />
           <Property Name="url" Type="nvarchar" MaxLength="250" />
+          <Property Name="chapNumber" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="manga">
           <Key>
@@ -34,7 +35,7 @@
           <Property Name="category_id" Type="bigint" />
           <Property Name="author" Type="nvarchar" MaxLength="250" />
           <Property Name="image" Type="nvarchar" MaxLength="250" />
-          <Property Name="chap" Type="nvarchar" MaxLength="250" />
+          <Property Name="chap" Type="int" />
           <Property Name="lastPage" Type="int" />
         </EntityType>
         <EntityType Name="User">
@@ -53,7 +54,8 @@
           <EntitySet Name="manga" EntityType="Self.manga" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="crawl3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -75,6 +77,7 @@
           <Property Name="word" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="manga_id" Type="Int64" />
           <Property Name="url" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="chapNumber" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="manga">
           <Key>
@@ -86,7 +89,7 @@
           <Property Name="category_id" Type="Int64" />
           <Property Name="author" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="image" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="chap" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="chap" Type="Int32" />
           <Property Name="lastPage" Type="Int32" />
         </EntityType>
         <EntityType Name="User">
@@ -114,10 +117,10 @@
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="crawl3Model.Category">
               <MappingFragment StoreEntitySet="Category">
-                <ScalarProperty Name="lastPage" ColumnName="lastPage" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="lastPage" ColumnName="lastPage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -129,13 +132,13 @@
                 <ScalarProperty Name="word" ColumnName="word" />
                 <ScalarProperty Name="manga_id" ColumnName="manga_id" />
                 <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="chapNumber" ColumnName="chapNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="mangas">
             <EntityTypeMapping TypeName="crawl3Model.manga">
               <MappingFragment StoreEntitySet="manga">
-                <ScalarProperty Name="lastPage" ColumnName="lastPage" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="url" ColumnName="url" />
@@ -143,6 +146,7 @@
                 <ScalarProperty Name="author" ColumnName="author" />
                 <ScalarProperty Name="image" ColumnName="image" />
                 <ScalarProperty Name="chap" ColumnName="chap" />
+                <ScalarProperty Name="lastPage" ColumnName="lastPage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
