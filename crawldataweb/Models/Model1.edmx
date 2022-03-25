@@ -102,7 +102,7 @@
           <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="Boolean" />
         </EntityType>
-        <EntityContainer Name="crawlDbContext" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="crawl3Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Chaps" EntityType="Self.Chap" />
           <EntitySet Name="mangas" EntityType="Self.manga" />
@@ -113,7 +113,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="crawl3ModelStoreContainer" CdmEntityContainer="crawlDbContext">
+        <EntityContainerMapping StorageEntityContainer="crawl3ModelStoreContainer" CdmEntityContainer="crawl3Entities">
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="crawl3Model.Category">
               <MappingFragment StoreEntitySet="Category">
