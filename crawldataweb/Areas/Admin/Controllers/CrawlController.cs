@@ -264,9 +264,9 @@ namespace crawldataweb.Areas.Admin.Controllers
             //}
             #endregion
             #region moi category lay 21 trang truyen (21*12)
-            if (number > 21)
+            if (number > 10)
             {
-                for (int i = 1; i < 21; i++)
+                for (int i = 1; i < 10; i++)
                 {
 
                     string newurlpage = urlcate + "trang-" + i;
@@ -290,11 +290,11 @@ namespace crawldataweb.Areas.Admin.Controllers
             if (countAllPageManga > countMangaSQL) //check if == true -> has new manga ;
             {
                 #region moi category lay 21 trang truyen (21*12)
-                if (countMangaSQL != 0) //chua co truyen
+                if (countMangaSQL == 0) //chua co truyen
                 {
-                    if (number > 21)
+                    if (number > 10)
                     {
-                        for (int i = 1; i < 21; i++)
+                        for (int i = 1; i < 10; i++)
                         {
                             //url trang  = url + (trang-i) -> ra trang tiep theo cua the loai
                             //+= nay dung de xem result in notepad -> sau chi can luu vao csdl
