@@ -290,7 +290,7 @@ namespace crawldataweb.Areas.Admin.Controllers
             if (countAllPageManga > countMangaSQL) //check if == true -> has new manga ;
             {
                 #region moi category lay 21 trang truyen (21*12)
-                if (countMangaSQL != 0) //chua co truyen
+                if (countMangaSQL == 0) //chua co truyen
                 {
                     if (number > 21)
                     {
@@ -326,7 +326,7 @@ namespace crawldataweb.Areas.Admin.Controllers
                 }
                 else //cap nhat them truyen
                 {
-
+                    //kho
                 }
 
                 #endregion
