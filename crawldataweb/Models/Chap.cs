@@ -20,5 +20,8 @@ namespace crawldataweb.Models
         public Nullable<long> manga_id { get; set; }
         public string url { get; set; }
         public int chapNumber { get; set; }
+        public Nullable<bool> status { get; set; }
+    
+        public virtual manga manga { get; set; }
     }
 }
