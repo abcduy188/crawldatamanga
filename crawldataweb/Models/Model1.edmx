@@ -13,6 +13,7 @@
           <Property Name="name" Type="nvarchar" MaxLength="250" />
           <Property Name="url" Type="nvarchar" MaxLength="250" />
           <Property Name="lastPage" Type="int" />
+          <Property Name="status" Type="bit" />
         </EntityType>
         <EntityType Name="Chap">
           <Key>
@@ -24,6 +25,7 @@
           <Property Name="manga_id" Type="bigint" />
           <Property Name="url" Type="nvarchar" MaxLength="250" />
           <Property Name="chapNumber" Type="int" Nullable="false" />
+          <Property Name="status" Type="bit" />
         </EntityType>
         <EntityType Name="manga">
           <Key>
@@ -37,6 +39,7 @@
           <Property Name="image" Type="nvarchar" MaxLength="250" />
           <Property Name="chap" Type="int" />
           <Property Name="lastPage" Type="int" />
+          <Property Name="status" Type="bit" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -67,6 +70,7 @@
           <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="url" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="lastPage" Type="Int32" />
+          <Property Name="status" Type="Boolean" />
         </EntityType>
         <EntityType Name="Chap">
           <Key>
@@ -78,6 +82,7 @@
           <Property Name="manga_id" Type="Int64" />
           <Property Name="url" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="chapNumber" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Boolean" />
         </EntityType>
         <EntityType Name="manga">
           <Key>
@@ -91,6 +96,7 @@
           <Property Name="image" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="chap" Type="Int32" />
           <Property Name="lastPage" Type="Int32" />
+          <Property Name="status" Type="Boolean" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -102,7 +108,7 @@
           <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="Boolean" />
         </EntityType>
-        <EntityContainer Name="crawl3Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="crawlDbContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Chaps" EntityType="Self.Chap" />
           <EntitySet Name="mangas" EntityType="Self.manga" />
@@ -113,7 +119,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="crawl3ModelStoreContainer" CdmEntityContainer="crawl3Entities">
+        <EntityContainerMapping StorageEntityContainer="crawl3ModelStoreContainer" CdmEntityContainer="crawlDbContext">
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="crawl3Model.Category">
               <MappingFragment StoreEntitySet="Category">
@@ -121,6 +127,7 @@
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="url" ColumnName="url" />
                 <ScalarProperty Name="lastPage" ColumnName="lastPage" />
+                <ScalarProperty Name="status" ColumnName="status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -133,6 +140,7 @@
                 <ScalarProperty Name="manga_id" ColumnName="manga_id" />
                 <ScalarProperty Name="url" ColumnName="url" />
                 <ScalarProperty Name="chapNumber" ColumnName="chapNumber" />
+                <ScalarProperty Name="status" ColumnName="status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -147,6 +155,7 @@
                 <ScalarProperty Name="image" ColumnName="image" />
                 <ScalarProperty Name="chap" ColumnName="chap" />
                 <ScalarProperty Name="lastPage" ColumnName="lastPage" />
+                <ScalarProperty Name="status" ColumnName="status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

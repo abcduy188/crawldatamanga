@@ -33,5 +33,11 @@ namespace crawldataweb.Areas.Admin.Controllers
 
             return View(listManga);
         }
+        public ActionResult Chap()
+        {
+            var listChap = db.Chaps.ToList();
+
+            return View(listChap);
+        }
     }
 }

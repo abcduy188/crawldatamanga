@@ -22,5 +22,6 @@ namespace crawldataweb.Models
         public string image { get; set; }
         public Nullable<int> chap { get; set; }
         public Nullable<int> lastPage { get; set; }
+        public Nullable<bool> status { get; set; }
     }
 }
