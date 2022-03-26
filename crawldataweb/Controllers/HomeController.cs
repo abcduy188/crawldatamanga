@@ -17,9 +17,22 @@ namespace crawldataweb.Controllers
         private crawlDbContext db = new crawlDbContext();
         public ActionResult Index()
         {
-           
+            var manga = db.mangas.Take(6).OrderByDescending(d => d.views).ToList();
+            ViewBag.manga = manga;
             return View();
 
+        }
+        public ActionResult Category(long id)
+        {
+            var manga = db.mangas.Where(d => d.category_id == id).ToList();
+            return View(manga);
+        }
+        public ActionResult Manga(long id)
+        {
+            var manga = db.mangas.Find(id);
+            manga.views += 1;
+            db.SaveChanges();
+            return View(manga);
         }
     }
 }

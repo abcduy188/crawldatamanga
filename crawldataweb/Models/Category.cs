@@ -14,10 +14,19 @@ namespace crawldataweb.Models
     
     public partial class Category
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Category()
+        {
+            this.mangas = new HashSet<manga>();
+        }
+    
         public long id { get; set; }
         public string name { get; set; }
         public string url { get; set; }
         public Nullable<int> lastPage { get; set; }
         public Nullable<bool> status { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<manga> mangas { get; set; }
     }
 }

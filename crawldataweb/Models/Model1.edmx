@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="crawl3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="crawl3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="id" />
@@ -40,6 +40,7 @@
           <Property Name="chap" Type="int" />
           <Property Name="lastPage" Type="int" />
           <Property Name="status" Type="bit" />
+          <Property Name="views" Type="int" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -51,14 +52,45 @@
           <Property Name="name" Type="nvarchar" MaxLength="250" />
           <Property Name="status" Type="bit" />
         </EntityType>
+        <Association Name="FK_Chap_manga">
+          <End Role="manga" Type="Self.manga" Multiplicity="0..1" />
+          <End Role="Chap" Type="Self.Chap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="manga">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Chap">
+              <PropertyRef Name="manga_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_manga_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="manga" Type="Self.manga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="manga">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="crawl3ModelStoreContainer">
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Chap" EntityType="Self.Chap" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="manga" EntityType="Self.manga" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Chap_manga" Association="Self.FK_Chap_manga">
+            <End Role="manga" EntitySet="manga" />
+            <End Role="Chap" EntitySet="Chap" />
+          </AssociationSet>
+          <AssociationSet Name="FK_manga_Category" Association="Self.FK_manga_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="manga" EntitySet="manga" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="crawl3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -71,6 +103,7 @@
           <Property Name="url" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="lastPage" Type="Int32" />
           <Property Name="status" Type="Boolean" />
+          <NavigationProperty Name="mangas" Relationship="crawl3Model.FK_manga_Category" FromRole="Category" ToRole="manga" />
         </EntityType>
         <EntityType Name="Chap">
           <Key>
@@ -83,6 +116,7 @@
           <Property Name="url" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="chapNumber" Type="Int32" Nullable="false" />
           <Property Name="status" Type="Boolean" />
+          <NavigationProperty Name="manga" Relationship="crawl3Model.FK_Chap_manga" FromRole="Chap" ToRole="manga" />
         </EntityType>
         <EntityType Name="manga">
           <Key>
@@ -97,6 +131,9 @@
           <Property Name="chap" Type="Int32" />
           <Property Name="lastPage" Type="Int32" />
           <Property Name="status" Type="Boolean" />
+          <Property Name="views" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="crawl3Model.FK_manga_Category" FromRole="manga" ToRole="Category" />
+          <NavigationProperty Name="Chaps" Relationship="crawl3Model.FK_Chap_manga" FromRole="manga" ToRole="Chap" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -113,7 +150,39 @@
           <EntitySet Name="Chaps" EntityType="Self.Chap" />
           <EntitySet Name="mangas" EntityType="Self.manga" />
           <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_manga_Category" Association="crawl3Model.FK_manga_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="manga" EntitySet="mangas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Chap_manga" Association="crawl3Model.FK_Chap_manga">
+            <End Role="manga" EntitySet="mangas" />
+            <End Role="Chap" EntitySet="Chaps" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_manga_Category">
+          <End Type="crawl3Model.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="crawl3Model.manga" Role="manga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="manga">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Chap_manga">
+          <End Type="crawl3Model.manga" Role="manga" Multiplicity="0..1" />
+          <End Type="crawl3Model.Chap" Role="Chap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="manga">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Chap">
+              <PropertyRef Name="manga_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -147,6 +216,7 @@
           <EntitySetMapping Name="mangas">
             <EntityTypeMapping TypeName="crawl3Model.manga">
               <MappingFragment StoreEntitySet="manga">
+                <ScalarProperty Name="views" ColumnName="views" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="url" ColumnName="url" />

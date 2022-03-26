@@ -9,6 +9,8 @@
         <EntityTypeShape EntityType="crawl3Model.Chap" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="crawl3Model.manga" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="crawl3Model.User" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="crawl3Model.FK_manga_Category" />
+        <AssociationConnector Association="crawl3Model.FK_Chap_manga" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
