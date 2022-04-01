@@ -14,6 +14,12 @@ namespace crawldataweb.Models
     
     public partial class manga
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public manga()
+        {
+            this.Chaps = new HashSet<Chap>();
+        }
+    
         public long id { get; set; }
         public string name { get; set; }
         public string url { get; set; }
@@ -22,5 +28,11 @@ namespace crawldataweb.Models
         public string image { get; set; }
         public Nullable<int> chap { get; set; }
         public Nullable<int> lastPage { get; set; }
+        public Nullable<bool> status { get; set; }
+        public Nullable<int> views { get; set; }
+    
+        public virtual Category Category { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Chap> Chaps { get; set; }
     }
 }
