@@ -34,5 +34,13 @@ namespace crawldataweb.Controllers
             db.SaveChanges();
             return View(manga);
         }
+        
+        public JsonResult web()
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var manga = db.mangas.Take(6).OrderByDescending(d => d.views).ToList();
+            ViewBag.manga = manga;
+            return Json(new { manga = manga  }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

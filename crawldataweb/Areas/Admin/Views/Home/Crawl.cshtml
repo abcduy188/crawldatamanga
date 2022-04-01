@@ -5,13 +5,81 @@
 }
 
 <h2>Crawl</h2>
-<a href="/admin/crawl/category" >Crawl Data Category</a>
-<a href="/admin/crawl/manga" >Crawl Data Manga</a>
-<a href="/admin/crawl/chap" >Crawl Data Chap</a>
-
+<button onclick="ProcessData();">Process Data</button>
+<button onclick="CrawlChap();">Chap</button>
+<button onclick="CancelProcessData();">Cancel Process Data</button>
 @section js
 {
-    <script>    
-        
+
+    <script>
+    var ajaxProcessDatarequest;
+    function ProcessData() {
+        var actionUrl = '@Url.Action("Category", "Crawl")';
+        alert("Đang lấy danh mục...");
+        ajaxProcessDatarequest = $.ajax({
+            type: "POST",
+            url: actionUrl,
+            contentType: "application/Json",
+            success: function (result) {
+                if (result.IsComplete) {
+                    if (!result.IsCancel) {
+                        crawlmanga();
+                  
+                    }
+                }
+            },
+            error: function (result) {
+                alert(result.a);
+            }
+        });
+        }
+        function crawlmanga() {
+            var a = '@Url.Action("Manga", "Crawl")';
+            alert("Đang lấy truyen...");
+                        ajaxProcessDatarequest =$.ajax({
+                            type: "POST",
+                            url: a,
+                            contentType: "application/Json",
+                            success: function (result) {
+                            if (result.IsComplete) {
+                                if (!result.IsCancel) {
+                                    var reUrl = '@Url.Action("Index", "Home")';
+                                    alert("Da lay truyen xong...");
+                                    window.location = reUrl;
+                                }
+                            }
+                             },
+                            error: function (result) {
+                                alert(result.a);
+                            }
+                            });
+        }
+    function CancelProcessData() {
+        ajaxProcessDatarequest.abort();
+    }
+        function CrawlChap() {
+            var a = '@Url.Action("ChapIndex", "Crawl")';
+            alert("Đang lấy chuong...");
+                        ajaxProcessDatarequest =$.ajax({
+                            type: "POST",
+                            url: a,
+                            contentType: "application/Json",
+                            success: function (result) {
+                            if (result.IsComplete) {
+                                if (!result.IsCancel) {
+                                    var reUrl = '@Url.Action("Index", "Home")';
+
+                                }
+                            }
+                             },
+                            error: function (result) {
+                                alert(result.a);
+                            }
+                            });
+        }
+    function CancelProcessData() {
+        ajaxProcessDatarequest.abort();
+    }
     </script>
+
 }
