@@ -17,7 +17,9 @@ namespace crawldataweb
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            JobScheduler.Start();
+            JobSchedulerManga.Start();
+            JobScheduleChap.Start();
+            JobScheduleCate.Start();
         }
     }
 }

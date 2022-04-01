@@ -153,10 +153,14 @@
     <Compile Include="Common\CrawlCategory.cs" />
     <Compile Include="Common\CrawlChap.cs" />
     <Compile Include="Common\CrawlManga.cs" />
-    <Compile Include="Common\DemoManga.cs" />
+    <Compile Include="Common\ScheduleManga.cs" />
     <Compile Include="Common\Encryptor.cs" />
-    <Compile Include="Common\JobScheduler.cs" />
+    <Compile Include="Common\JobScheduleCate.cs" />
+    <Compile Include="Common\JobScheduleChap.cs" />
+    <Compile Include="Common\JobSchedulerManga.cs" />
     <Compile Include="Common\pageSession.cs" />
+    <Compile Include="Common\ScheduleCategory.cs" />
+    <Compile Include="Common\ScheduleChap.cs" />
     <Compile Include="Common\urlSession.cs" />
     <Compile Include="Common\UserLogin.cs" />
     <Compile Include="Controllers\HomeController.cs" />
