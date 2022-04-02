@@ -24,7 +24,15 @@ namespace crawldataweb.Models
         {
             throw new UnintentionalCodeFirstException();
         }
-    
+        public long GetNextSequenceValue()
+        {
+            var rawQuery = Database.SqlQuery<long>("SELECT NEXT VALUE FOR dbo.Chap;");
+            var task = rawQuery.SingleAsync();
+            long nextVal = task.Result;
+
+            return nextVal;
+        }
+
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Chap> Chaps { get; set; }
         public virtual DbSet<manga> mangas { get; set; }
