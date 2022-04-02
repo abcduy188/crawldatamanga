@@ -23,19 +23,15 @@ namespace crawldataweb.Common
         public void gethtml(string html, long idmanga, string urlchap, int i)
         {
             //https://regex101.com/r/yv0641/1
-            string pattern = @".*?title="""">(.*?)<\/a>.*?<div class=""content container1""><\/br><p>(.*?)<iframe.*?><\/iframe>(.*?)<iframe.*?<\/iframe>(.*?)<\/p>";
+            string pattern = @".*?title="""">(.*?)<\/a>.*?<div class=""content container1"">(.*?)<\/div>";
+         
             var chap = new Chap();
 
             string urlr = "";
             foreach (Match m in Regex.Matches(html, pattern))
             {
-                string word = m.Groups[2].Value.Replace("<br>", "\n");
-                string word2 = m.Groups[3].Value.Replace("<br>", "\n");
-                string word3 = m.Groups[4].Value.Replace("<br>", "\n");
-                //word.Replace("<br>","\n");
-                //word2.Replace("<br>", "\n");
-                //word3.Replace("<br>", "\n");
-                string wordall = word + word2 + word3;
+                string word = m.Groups[2].Value;
+                string wordall = word;
 
                 if ((m.Groups[1].Value).Length < 255)
                 {

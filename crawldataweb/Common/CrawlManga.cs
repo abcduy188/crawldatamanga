@@ -99,6 +99,8 @@ namespace crawldataweb.Common
                 #region moi category lay 21 trang truyen (21*12)
                 if (countMangaSQL == 0) //chua co truyen
                 {
+                    category.lastPage = number;
+                    db.SaveChanges();
                     if (number > 10)
                     {
                         for (int i = 1; i < 10; i++)

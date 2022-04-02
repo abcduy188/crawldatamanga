@@ -84,7 +84,7 @@ namespace crawldataweb.Common
                 if (countInMatch >= newCount) //always true
                 {
                     int newCount1 = countInMatch - newCount; //3
-                    for (int i = newCount1; i < 3; i++) //2
+                    for (int i = newCount1; i < 4; i++) //2
                     {
                         urlr = listurlcate[i];
                         var check = db.Categories.FirstOrDefault(d => d.url == urlr);
@@ -92,6 +92,7 @@ namespace crawldataweb.Common
                         {
                             cate.name = listcate[i];
                             cate.url = listurlcate[i];
+                            cate.status = true;
                             db.Categories.Add(cate);
                             db.SaveChanges();
                         }

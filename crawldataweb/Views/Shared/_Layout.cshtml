@@ -7,7 +7,7 @@
     <meta name="keywords" content="Anime, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Anime | Template</title>
+    <title>@ViewBag.Title</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -23,6 +23,13 @@
     <link rel="stylesheet" href="/assets/client/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="/assets/client/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/assets/client/css/style.css" type="text/css">
+    <style>
+        .pagination .active{
+            border-radius:50%;
+            border:1px solid;
+            color:crimson;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,31 +44,14 @@
             <div class="row">
                 <div class="col-lg-2">
                     <div class="header__logo">
-                        <a href="./index.html">
+                        <a href="@Url.Action("Index","Home")">
                             <img src="img/logo.png" alt="">
                         </a>
                     </div>
                 </div>
                 <div class="col-lg-8">
                     <div class="header__nav">
-                        <nav class="header__menu mobile-menu">
-                            <ul>
-                                <li class="active"><a href="./index.html">Homepage</a></li>
-                                <li>
-                                    <a href="./categories.html">Categories <span class="arrow_carrot-down"></span></a>
-                                    <ul class="dropdown">
-                                        <li><a href="./categories.html">Categories</a></li>
-                                        <li><a href="./anime-details.html">Anime Details</a></li>
-                                        <li><a href="./anime-watching.html">Anime Watching</a></li>
-                                        <li><a href="./blog-details.html">Blog Details</a></li>
-                                        <li><a href="./signup.html">Sign Up</a></li>
-                                        <li><a href="./login.html">Login</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="./blog.html">Our Blog</a></li>
-                                <li><a href="#">Contacts</a></li>
-                            </ul>
-                        </nav>
+                        @{ Html.RenderAction("CatePartial", "Home");}
                     </div>
                 </div>
                 <div class="col-lg-2">
@@ -115,8 +105,8 @@
     <div class="search-model">
         <div class="h-100 d-flex align-items-center justify-content-center">
             <div class="search-close-switch"><i class="icon_close"></i></div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
+            <form class="search-model-form" method="get" action="@Url.Action("Search", "Home")" >
+                <input type="text" id="search-input" placeholder="Search here....." name="KeyWord" value="@ViewBag.KeyWord">
             </form>
         </div>
     </div>
@@ -131,7 +121,7 @@
     <script src="/Assets/client/js/owl.carousel.min.js"></script>
     <script src="/Assets/client/js/main.js"></script>
 
-
+    @RenderSection("scripts", required:false)
 </body>
 
 </html>

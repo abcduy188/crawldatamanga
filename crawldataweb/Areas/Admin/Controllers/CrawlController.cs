@@ -33,10 +33,10 @@ namespace crawldataweb.Areas.Admin.Controllers
         public async Task<ActionResult> Manga()
         {
 
-           
-             await Mangad();
-           
-            return Json(new { IsComplete = true});
+
+            await Mangad();
+
+            return Json(new { IsComplete = true });
         }
 
         public async Task Mangad()
@@ -95,63 +95,66 @@ namespace crawldataweb.Areas.Admin.Controllers
 
             foreach (var item in man)
             {
-                await Task.Run(() =>
-                {
-                    
-                    int number = (int)item.chap; //get chap
-
-                    #region lấy 15 chap demo
-                    var chaps = db.Chaps.Where(d => d.manga_id == item.id).OrderByDescending(d => d.chapNumber).ToList();
-                    if (chaps.Count == 0) //Chua co chap, add chap moi
+                
+                    await Task.Run(() =>
                     {
-                        if (number <= 15)
+
+                        int number = (int)item.chap; //get chap
+
+                        #region lấy 15 chap demo
+                        var chaps = db.Chaps.Where(d => d.manga_id == item.id).OrderByDescending(d => d.chapNumber).ToList();
+                        if (chaps.Count == 0) //Chua co chap, add chap moi
                         {
-                            for (int i = 1; i <= number; i++)
+                            if (number <= 15)
                             {
-                                   runcode(url, item.url, i, item.id);
-                              
-                            }
-                        }
-                        else
-                        {
-                            for (int i = 1; i <= 15; i++)
-                            {
-                              
+                                for (int i = 1; i <= number; i++)
+                                {
                                     runcode(url, item.url, i, item.id);
-                               
-                            }
-                        }
 
-                        #region Lấy tất cả các chap
-                        //for (int i = 1; i <= number; i++)
-                        //{
-                        // runcode(url, item.url, i, item.id);
-                        //}
-                        #endregion
-                    }
-                    else //co chap ton tai => kiem tra update
-                    {
-                        var chap = chaps.First();
-                        if (number > chap.chapNumber)
-                        {
-                            for (int i = chap.chapNumber + 1; i <= 15; i++) //bat dat duyet chap tiep theo
+                                }
+                            }
+                            else
                             {
+                                for (int i = 1; i <= 15; i++)
+                                {
 
                                     runcode(url, item.url, i, item.id);
-                                
+
+                                }
                             }
+
                             #region Lấy tất cả các chap
-                            //for (int i = chap.chapNumber + 1; i <= 15; i++) //bat dat duyet chap tiep theo
+                            //for (int i = 1; i <= number; i++)
                             //{
-                            //    runcode(url, item.url, i, item.id);
+                            // runcode(url, item.url, i, item.id);
                             //}
                             #endregion
                         }
-                    }
-                    #endregion
+                        else //co chap ton tai => kiem tra update
+                        {
+                            var chap = chaps.First();
+                            if (number > chap.chapNumber)
+                            {
+                                for (int i = chap.chapNumber + 1; i <= 15; i++) //bat dat duyet chap tiep theo
+                                {
+
+                                    runcode(url, item.url, i, item.id);
+
+                                }
+                                #region Lấy tất cả các chap
+                                //for (int i = chap.chapNumber + 1; i <= 15; i++) //bat dat duyet chap tiep theo
+                                //{
+                                //    runcode(url, item.url, i, item.id);
+                                //}
+                                #endregion
+                            }
+                        }
+                        #endregion
 
 
-                });
+                    });
+                
+
             }
 
         }

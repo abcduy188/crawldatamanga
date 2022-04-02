@@ -34,7 +34,7 @@ namespace crawldataweb.Common
 
                     .OnEveryDay()
 
-                    .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(00, 00))
+                    .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(02, 00))
 
                   )
 
