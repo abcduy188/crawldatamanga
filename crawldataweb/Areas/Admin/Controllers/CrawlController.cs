@@ -95,8 +95,7 @@ namespace crawldataweb.Areas.Admin.Controllers
 
             foreach (var item in man)
             {
-                if (item.id == 12891 || item.id == 12952)
-                {
+                
                     await Task.Run(() =>
                     {
 
@@ -154,7 +153,7 @@ namespace crawldataweb.Areas.Admin.Controllers
 
 
                     });
-                }
+                
 
             }
 
